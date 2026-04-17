@@ -450,6 +450,30 @@
             outline: none;
         }
 
+        /* Contact Info Styling */
+        .contact-details {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1F2937;
+        }
+        .contact-item a {
+            color: #F97316;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .contact-item a:hover {
+            color: #0F172A;
+        }
+
         .form-control:focus {
             background: rgba(255, 255, 255, 1);
             border-color: var(--accent-orange);
@@ -669,6 +693,17 @@
                 <div class="contact-info">
                     <h3>Ready to clear it out?</h3>
                     <p>Fill out the form below or give us a call to schedule your free, no-obligation estimate today.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <span>📞</span>
+                            <a href="tel:+12817075336">(281) 707-5336</a>
+                        </div>
+                        <div class="contact-item">
+                            <span>✉️</span>
+                            <a href="mailto:broswithtruck@gmail.com">broswithtruck@gmail.com</a>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Web3Forms Setup -->
@@ -697,14 +732,14 @@
     </main>
 
     <!-- Sticky Floating Call Button -->
-    <a href="tel:+1234567890" class="fab" aria-label="Call Now">
+    <a href="tel:+12817075336" class="fab" aria-label="Call Now">
         <svg viewBox="0 0 24 24">
             <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
         </svg>
     </a>
 
     <footer>
-        <p>&copy; 2026 Bros with Truck. All Rights Reserved.</p>
+        <p>&copy; 2026 Bros with Truck. All Rights Reserved. | Call: <a href="tel:+12817075336" style="color: inherit; text-decoration: none; font-weight: 700;">(281) 707-5336</a> | Email: <a href="mailto:broswithtruck@gmail.com" style="color: inherit; text-decoration: none; font-weight: 700;">broswithtruck@gmail.com</a></p>
     </footer>
 
     <!-- INTERSECTION OBSERVER & FAQ JAVASCRIPT -->
