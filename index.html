@@ -36,44 +36,35 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-            color: var(--text-dark);
+            background-color: #F4F5F7;
+            /* Enhanced ambient gradients for better glass distortion */
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(249, 115, 22, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 90% 90%, rgba(15, 23, 42, 0.08) 0%, transparent 45%);
+            background-attachment: fixed;
+            color: #1F2937;
             line-height: 1.6;
-            overflow-x: clip; /* clip instead of hidden to preserve sticky nav */
+            overflow-x: hidden;
             position: relative;
+            z-index: 0;
         }
 
-        /* --- Background Animated Orbs --- */
-        .orb {
+        /* The Premium Noise Texture Overlay */
+        body::before {
+            content: "";
             position: fixed;
-            border-radius: 50%;
-            filter: blur(140px);
-            opacity: 0.6;
-            z-index: -1;
-            animation: float 25s infinite alternate ease-in-out;
-            pointer-events: none;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            /* Inline SVG for pure CSS noise */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.04; /* Extremely subtle */
+            z-index: -1; /* Keeps it behind all content */
+            pointer-events: none; /* Prevents it from blocking clicks */
         }
 
-        .orb-1 {
-            width: 45vw; height: 45vw;
-            background: rgba(15, 23, 42, 0.12); /* Faint Navy */
-            top: -15%; left: -10%;
-        }
 
-        .orb-2 {
-            width: 55vw; height: 55vw;
-            background: rgba(249, 115, 22, 0.12); /* Faint Orange */
-            bottom: -20%; right: -15%;
-            animation-delay: -5s;
-            animation-duration: 30s;
-            animation-direction: alternate-reverse;
-        }
-
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(5vw, 10vh) scale(1.1); }
-            100% { transform: translate(-5vw, 5vh) scale(0.9); }
-        }
 
         /* --- Global Components & Utilities --- */
         .container {
@@ -345,78 +336,61 @@
         }
 
         /* --- Interactive FAQ Accordion --- */
-        #faq {
-            margin-top: 100px; 
-            margin-bottom: 120px; /* Prevents overlap with contact section */
+        /* --- Interactive FAQ Accordion (Light Glassmorphism) --- */
+        .faq-container { 
+            max-width: 800px; 
+            margin: 0 auto 80px auto; 
+            display: flex; 
+            flex-direction: column; 
+            background: rgba(255, 255, 255, 0.3); 
+            backdrop-filter: blur(28px) saturate(150%); 
+            -webkit-backdrop-filter: blur(28px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.8); 
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.07); 
+            border-radius: 24px; 
+            padding: 30px; 
         }
-
-        .faq-container {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px; 
-        }
-
-        /* --- Rebuilt FAQ Accordion --- */
-        #faq {
-            margin-top: 100px; 
-            margin-bottom: 120px;
-        }
-
-        .faq-item {
-            margin-bottom: 15px;
-            background: white;
-            border: 1px solid #E5E7EB;
-            border-radius: 12px;
+        .faq-item { 
+            background: transparent; 
+            border: none; 
+            border-bottom: 1px solid rgba(31, 41, 55, 0.08); 
+            border-radius: 0; 
             overflow: hidden;
-            transition: all 0.3s ease;
         }
-
-        .faq-question {
-            width: 100%;
-            text-align: left;
-            padding: 20px;
-            background: #F9FAFB;
-            color: #1F2937;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.1rem;
-            font-family: inherit;
+        .faq-item:last-child { 
+            border-bottom: none; 
         }
-
-        .faq-icon {
-            font-size: 1.5rem;
-            color: var(--accent-orange);
-            transition: transform 0.4s ease;
+        .faq-question { 
+            width: 100%; 
+            text-align: left; 
+            padding: 25px 0; 
+            background: transparent; 
+            border: none; 
+            color: #1F2937; 
+            font-size: 1.15rem; 
+            font-weight: 700; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            outline: none; /* Removes default browser focus ring */
         }
-
-        .faq-item.active .faq-icon {
-            transform: rotate(45deg);
+        .faq-question:focus { 
+            outline: none; 
         }
-
-        .faq-answer {
-            max-height: 0;
-            padding: 0 20px;
-            overflow: hidden;
-            transition: all 0.4s ease-in-out;
-            background: white;
+        .faq-icon { font-size: 1rem; color: #F97316; transition: transform 0.3s ease; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        .faq-answer { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.4s ease, padding 0.4s ease; 
+            background: transparent; 
         }
-
-        .faq-item.active .faq-answer {
-            max-height: 1000px;
-            padding: 0 20px 20px 20px;
+        .faq-item.active .faq-answer { 
+            max-height: 600px; 
+            padding-bottom: 25px; 
         }
-
-        .faq-answer p {
-            color: #4B5563;
-            margin-top: 15px;
-            font-size: 1.05rem;
-        }
+        .faq-answer p { margin: 0; color: #4B5563; line-height: 1.6; }
 
         /* --- Contact Section --- */
         .contact-wrapper {
@@ -548,9 +522,7 @@
 </head>
 <body>
 
-    <!-- Ambient Background -->
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
+
 
     <!-- Header Logo Container -->
     <header class="header-container">
@@ -663,50 +635,30 @@
 
         <!-- Interactive FAQ Section -->
         <section id="faq" class="container">
-            <div class="section-header reveal">
+            <div class="section-header">
                 <h2>Common Questions</h2>
                 <p>Everything you need to know about our removal process.</p>
             </div>
-
             <div class="faq-container">
-                <!-- FAQ 1 -->
-                <div class="faq-item glass-panel reveal">
-                    <button class="faq-question">
-                        How does pricing work?
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <!-- Improved inner wrapper for smooth CSS Grid animation -->
-                    <div class="faq-answer">
-                        <div>
-                            <p>Our pricing is volume-based, meaning you only pay for the space your items take up in our truck. We provide upfront, transparent estimates with no hidden fees before we begin any work.</p>
-                        </div>
-                    </div>
+                <div class="faq-item">
+                    <button class="faq-question">How does pricing work? <span class="faq-icon">▼</span></button>
+                    <div class="faq-answer"><p>Our pricing is volume-based, meaning you only pay for the space your items take up in our truck. We provide upfront, transparent estimates with no hidden fees before we begin any work.</p></div>
                 </div>
-
-                <!-- FAQ 2 -->
-                <div class="faq-item glass-panel reveal">
-                    <button class="faq-question">
-                        Are there items you DO NOT take?
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <div>
-                            <p>Yes, for safety and legal reasons, we cannot accept hazardous materials, highly flammable liquids, wet paint, biological waste, or pressurized tanks. We can, however, advise you on how to dispose of them properly locally.</p>
-                        </div>
-                    </div>
+                <div class="faq-item">
+                    <button class="faq-question">Are there items you DO NOT take? <span class="faq-icon">▼</span></button>
+                    <div class="faq-answer"><p>Yes, for safety and legal reasons, we cannot accept hazardous materials, highly flammable liquids, wet paint, biological waste, or pressurized tanks. We can, however, advise you on how to dispose of them properly locally.</p></div>
                 </div>
-
-                <!-- FAQ 3 -->
-                <div class="faq-item glass-panel reveal">
-                    <button class="faq-question">
-                        Do you offer same-day service?
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <div>
-                            <p>Absolutely! Depending on our daily schedule and truck availability, we frequently fulfill same-day and next-day appointments. We recommend calling us directly for the fastest response.</p>
-                        </div>
-                    </div>
+                <div class="faq-item">
+                    <button class="faq-question">Do you offer same-day service? <span class="faq-icon">▼</span></button>
+                    <div class="faq-answer"><p>Absolutely! Depending on our daily schedule and truck availability, we frequently fulfill same-day and next-day appointments. We recommend calling us directly for the fastest response.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Do I need to be home for the pickup? <span class="faq-icon">▼</span></button>
+                    <div class="faq-answer"><p>If your items are located outside (like in a driveway or yard) and easily accessible, you do not need to be home. We can handle the removal and process payment over the phone. If items are inside, an adult must be present.</p></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">What do you do with the junk you take? <span class="faq-icon">▼</span></button>
+                    <div class="faq-answer"><p>We are committed to eco-friendly disposal. We do our best to donate usable furniture to local charities, recycle materials like metal and electronics, and only take what is truly trash to the landfill.</p></div>
                 </div>
             </div>
         </section>
@@ -778,21 +730,17 @@
                 revealOnScroll.observe(el);
             });
 
-            // 2. FAQ Accordion Logic
-            const faqQuestions = document.querySelectorAll('.faq-question');
-
-            faqQuestions.forEach(question => {
-                question.addEventListener('click', () => {
-                    const item = question.parentElement;
-                    
-                    // Close other items
-                    document.querySelectorAll('.faq-item').forEach(otherItem => {
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const button = item.querySelector('.faq-question');
+                button.addEventListener('click', () => {
+                    // Close all other open FAQs
+                    faqItems.forEach(otherItem => {
                         if (otherItem !== item) {
                             otherItem.classList.remove('active');
                         }
                     });
-
-                    // Toggle current item
+                    // Toggle the clicked FAQ
                     item.classList.toggle('active');
                 });
             });
