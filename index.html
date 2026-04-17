@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bros with Truck | Premium Junk & Removal Services</title>
+    <!-- Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS Reset & Variables --- */
+        :root {
+            /* Light Mode Palette */
+            --bg-light: #f8fafc;
+            --text-dark: #1F2937; /* Dark Charcoal */
+            --text-muted: #4B5563;
+            --accent-navy: #0F172A; /* Heavy-Duty Navy Blue */
+            --accent-orange: #F97316; /* Safety Orange */
+            --accent-orange-hover: #ea580c;
+            --accent-glow: rgba(249, 115, 22, 0.4);
+            
+            /* Light Frosted Glassmorphism Tokens */
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 255, 255, 1);
+            --glass-blur: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: clip; /* clip instead of hidden to preserve sticky nav */
+            position: relative;
+        }
+
+        /* --- Background Animated Orbs --- */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.6;
+            z-index: -1;
+            animation: float 25s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 45vw; height: 45vw;
+            background: rgba(15, 23, 42, 0.12); /* Faint Navy */
+            top: -15%; left: -10%;
+        }
+
+        .orb-2 {
+            width: 55vw; height: 55vw;
+            background: rgba(249, 115, 22, 0.12); /* Faint Orange */
+            bottom: -20%; right: -15%;
+            animation-delay: -5s;
+            animation-duration: 30s;
+            animation-direction: alternate-reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(5vw, 10vh) scale(1.1); }
+            100% { transform: translate(-5vw, 5vh) scale(0.9); }
+        }
+
+        /* --- Global Components & Utilities --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(15, 23, 42, 0.06);
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--accent-orange);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.2);
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px var(--accent-glow);
+            background: var(--accent-orange-hover);
+        }
+
+        h1, h2, h3 { 
+            line-height: 1.2; 
+            color: var(--accent-navy);
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Header & Layout Restructure --- */
+        .header-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 50px;
+            z-index: 1000;
+            position: relative;
+        }
+
+        .logo-wrapper {
+            margin-bottom: 30px;
+        }
+
+        .logo-wrapper img {
+            height: 120px; /* Large and legible */
+            width: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        .sticky-nav-wrapper {
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 0 20px;
+        }
+
+        .nav-strip {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px 10px 35px;
+            border-radius: 100px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            color: var(--accent-navy);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-orange);
+        }
+
+        .nav-cta {
+            padding: 12px 28px;
+            font-size: 0.95rem;
+        }
+
+        .menu-toggle {
+            display: none;
+            color: var(--accent-navy);
+            font-size: 1.8rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            position: relative;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding-top: 100px; /* Substantial margin from nav */
+            padding-bottom: 180px; /* Increased to contain absolute marquee */
+        }
+
+        .hero-content {
+            max-width: 850px;
+            padding: 0 20px;
+            margin-bottom: 80px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 7vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-inline: auto;
+        }
+
+        .hero .btn {
+            font-size: 1.1rem;
+            padding: 18px 45px;
+        }
+
+        /* Marquee */
+        .marquee-wrapper {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.4);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 18px 0;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .marquee {
+            display: flex;
+            white-space: nowrap;
+            animation: scroll 25s linear infinite;
+        }
+
+        .marquee span {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 0 40px;
+            display: inline-flex;
+            align-items: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent-navy);
+        }
+
+        .marquee span::before {
+            content: '✦';
+            margin-right: 40px;
+            color: var(--accent-orange);
+            font-size: 1.2rem;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- Global Sections Spacing --- */
+        section {
+            padding: 120px 0; /* Breathing room globally */
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 70px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            margin-bottom: 15px;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- Services Grid --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+        }
+
+        .service-card {
+            padding: 25px;
+            text-align: center;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+        }
+
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* --- Interactive FAQ Accordion --- */
+        #faq {
+            margin-top: 100px; 
+            margin-bottom: 120px; /* Prevents overlap with contact section */
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; 
+        }
+
+        /* --- Rebuilt FAQ Accordion --- */
+        #faq {
+            margin-top: 100px; 
+            margin-bottom: 120px;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question {
+            width: 100%;
+            text-align: left;
+            padding: 20px;
+            background: #F9FAFB;
+            color: #1F2937;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+            font-family: inherit;
+        }
+
+        .faq-icon {
+            font-size: 1.5rem;
+            color: var(--accent-orange);
+            transition: transform 0.4s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            padding: 0 20px;
+            overflow: hidden;
+            transition: all 0.4s ease-in-out;
+            background: white;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            padding: 0 20px 20px 20px;
+        }
+
+        .faq-answer p {
+            color: #4B5563;
+            margin-top: 15px;
+            font-size: 1.05rem;
+        }
+
+        /* --- Contact Section --- */
+        .contact-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 60px;
+            padding: 60px;
+        }
+
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .contact-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .contact-info p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            margin-bottom: 30px;
+        }
+
+        .contact-form {
+            flex: 1.5;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .input-group label {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--accent-navy);
+            margin-left: 5px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(15, 23, 42, 0.15);
+            border-radius: 12px;
+            color: var(--text-dark);
+            font-family: inherit;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 1);
+            border-color: var(--accent-orange);
+            box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.15);
+        }
+
+        .form-control::placeholder {
+            color: #9CA3AF;
+        }
+
+        textarea.form-control {
+            min-height: 160px;
+            resize: vertical;
+        }
+
+        /* --- Floating Action Button --- */
+        .fab {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 65px;
+            height: 65px;
+            background: var(--accent-orange);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(249, 115, 22, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(249, 115, 22, 0.6);
+            background: var(--accent-orange-hover);
+        }
+
+        .fab svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 900px) {
+            .logo-wrapper img {
+                height: 100px;
+            }
+            .nav-strip {
+                padding: 12px 20px;
+            }
+            .nav-links { display: none; }
+            .menu-toggle { display: block; }
+            .nav-cta { display: none; }
+            .contact-wrapper { padding: 40px 20px; }
+            .fab { bottom: 20px; right: 20px; width: 55px; height: 55px; }
+            .fab svg { width: 26px; height: 26px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Background -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Header Logo Container -->
+    <header class="header-container">
+        <div class="logo-wrapper">
+            <img src="logo.png" alt="Bros with Truck">
+        </div>
+    </header>
+
+    <!-- Sticky Navigation Strip -->
+    <div class="sticky-nav-wrapper">
+        <nav class="nav-strip glass-panel">
+            <div class="nav-links">
+                <a href="#services">Services</a>
+                <a href="#faq">FAQ</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <a href="#contact" class="btn nav-cta">Get a Quote</a>
+            <button class="menu-toggle" aria-label="Menu">☰</button>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content reveal">
+                <h1>Premium Junk & Debris Removal</h1>
+                <p>Fast, reliable, and hassle-free clean-out services. We do the heavy lifting so you can reclaim your space today.</p>
+                <a href="#contact" class="btn">Get a Quote</a>
+            </div>
+
+            <!-- Continuous Marquee -->
+            <div class="marquee-wrapper reveal">
+                <div class="marquee">
+                    <span>Same-Day Service Available</span>
+                    <span>Fully Licensed & Insured</span>
+                    <span>Eco-Friendly Disposal</span>
+                    <span>Upfront Transparent Pricing</span>
+                    <span>Same-Day Service Available</span>
+                    <span>Fully Licensed & Insured</span>
+                    <span>Eco-Friendly Disposal</span>
+                    <span>Upfront Transparent Pricing</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section Grid -->
+        <section id="services" class="container" style="margin-top: 120px;">
+            <div class="section-header reveal">
+                <h2>Our Services</h2>
+                <p>Professional removal for residential, commercial, and specialty items.</p>
+            </div>
+            
+            <div class="services-grid">
+                <!-- Card 1 -->
+                <div class="service-card glass-panel reveal">
+                    <img src="service1.png" alt="Garage Clean Out">
+                    <h3>Garage Clean Out</h3>
+                    <p>Reclaim your parking space with our full-service garage clearing.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="service-card glass-panel reveal">
+                    <img src="service2.png" alt="Shed Removal">
+                    <h3>Shed Removal</h3>
+                    <p>We safely dismantle and haul away old, collapsing outdoor sheds.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="service-card glass-panel reveal">
+                    <img src="service3.png" alt="Storage Unit Clean Outs">
+                    <h3>Storage Unit Clean Outs</h3>
+                    <p>Stop paying rent on junk. We'll empty your storage unit completely.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="service-card glass-panel reveal">
+                    <img src="service4.png" alt="Eviction Clean Outs">
+                    <h3>Eviction Clean Outs</h3>
+                    <p>Fast and discreet cleanups for property managers and landlords.</p>
+                </div>
+                <!-- Card 5 -->
+                <div class="service-card glass-panel reveal">
+                    <img src="service5.png" alt="Fridge Removal">
+                    <h3>Fridge Removal</h3>
+                    <p>Eco-friendly disposal and recycling of large appliances.</p>
+                </div>
+                <!-- Card 6 -->
+                <div class="service-card glass-panel reveal">
+                    <img src="service6.png" alt="Hot Tub Removal">
+                    <h3>Hot Tub Removal</h3>
+                    <p>Heavy lifting and safe breakdown of old hot tubs and jacuzzis.</p>
+                </div>
+                <!-- Card 7 -->
+                <div class="service-card glass-panel reveal">
+                    <img src="service7.png" alt="Trampoline Removal">
+                    <h3>Trampoline Removal</h3>
+                    <p>Disassembly and hauling of bulky outdoor play equipment.</p>
+                </div>
+                <!-- Card 8 -->
+                <div class="service-card glass-panel reveal">
+                    <img src="service8.png" alt="Furniture Removal">
+                    <h3>Furniture Removal</h3>
+                    <p>Couches, tables, and heavy items removed without a scratch.</p>
+                </div>
+                <!-- Card 9 -->
+                <div class="service-card glass-panel reveal">
+                    <img src="service9.png" alt="Mattress Removal">
+                    <h3>Mattress Removal</h3>
+                    <p>Sanitary and proper disposal of old, unwanted mattresses.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive FAQ Section -->
+        <section id="faq" class="container">
+            <div class="section-header reveal">
+                <h2>Common Questions</h2>
+                <p>Everything you need to know about our removal process.</p>
+            </div>
+
+            <div class="faq-container">
+                <!-- FAQ 1 -->
+                <div class="faq-item glass-panel reveal">
+                    <button class="faq-question">
+                        How does pricing work?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <!-- Improved inner wrapper for smooth CSS Grid animation -->
+                    <div class="faq-answer">
+                        <div>
+                            <p>Our pricing is volume-based, meaning you only pay for the space your items take up in our truck. We provide upfront, transparent estimates with no hidden fees before we begin any work.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="faq-item glass-panel reveal">
+                    <button class="faq-question">
+                        Are there items you DO NOT take?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div>
+                            <p>Yes, for safety and legal reasons, we cannot accept hazardous materials, highly flammable liquids, wet paint, biological waste, or pressurized tanks. We can, however, advise you on how to dispose of them properly locally.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="faq-item glass-panel reveal">
+                    <button class="faq-question">
+                        Do you offer same-day service?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div>
+                            <p>Absolutely! Depending on our daily schedule and truck availability, we frequently fulfill same-day and next-day appointments. We recommend calling us directly for the fastest response.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="container reveal">
+            <div class="contact-wrapper glass-panel">
+                <div class="contact-info">
+                    <h3>Ready to clear it out?</h3>
+                    <p>Fill out the form below or give us a call to schedule your free, no-obligation estimate today.</p>
+                </div>
+                
+                <!-- Web3Forms Setup -->
+                <form action="https://api.web3forms.com/submit" method="POST" class="contact-form">
+                    <input type="hidden" name="access_key" value="f9e7a915-5774-48dc-a9f2-f0e859af944f">
+                    
+                    <div class="input-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="John Doe" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" class="form-control" placeholder="(555) 123-4567" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="message">What do you need removed?</label>
+                        <textarea id="message" name="message" class="form-control" placeholder="Describe the items or service you need..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn" style="margin-top: 10px;">Send Request</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Sticky Floating Call Button -->
+    <a href="tel:+1234567890" class="fab" aria-label="Call Now">
+        <svg viewBox="0 0 24 24">
+            <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 00-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"/>
+        </svg>
+    </a>
+
+    <footer>
+        <p>&copy; 2026 Bros with Truck. All Rights Reserved.</p>
+    </footer>
+
+    <!-- INTERSECTION OBSERVER & FAQ JAVASCRIPT -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // 1. Scroll Reveal Logic (Intersection Observer)
+            const revealElements = document.querySelectorAll('.reveal');
+            
+            const revealOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const revealOnScroll = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    entry.target.classList.add('active');
+                });
+            }, revealOptions);
+
+            revealElements.forEach(el => {
+                revealOnScroll.observe(el);
+            });
+
+            // 2. FAQ Accordion Logic
+            const faqQuestions = document.querySelectorAll('.faq-question');
+
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const item = question.parentElement;
+                    
+                    // Close other items
+                    document.querySelectorAll('.faq-item').forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
