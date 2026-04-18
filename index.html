@@ -534,10 +534,38 @@
             }
             .nav-strip {
                 padding: 12px 20px;
+                /* Make header strip a flex container that aligns items on the ends */
+                display: flex;
+                flex-direction: row-reverse; /* Puts menu icon on left, CTA on right */
+                justify-content: space-between;
+                align-items: center;
             }
-            .nav-links { display: none; }
-            .menu-toggle { display: block; }
-            .nav-cta { display: none; }
+            .nav-links { 
+                display: none; 
+            }
+            .nav-links.mobile-active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 70px; /* Below the nav strip */
+                left: 20px;
+                right: 20px;
+                background: #FFFFFF;
+                border-radius: 16px;
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                gap: 20px;
+                text-align: center;
+            }
+            .menu-toggle { 
+                display: block; 
+                order: -1; 
+            }
+            .nav-cta { 
+                display: inline-block; 
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
             .contact-wrapper { padding: 40px 20px; }
             .fab { bottom: 20px; right: 20px; width: 55px; height: 55px; }
             .fab svg { width: 26px; height: 26px; }
@@ -593,7 +621,7 @@
         </section>
 
         <!-- Services Section Grid -->
-        <section id="services" class="container" style="margin-top: 120px;">
+        <section id="services" class="container" style="margin-top: 120px; margin-bottom: 120px;">
             <div class="section-header reveal">
                 <h2>Our Services</h2>
                 <p>Professional removal for residential, commercial, and specialty items.</p>
@@ -779,6 +807,24 @@
                     item.classList.toggle('active');
                 });
             });
+
+            // Mobile Menu Toggle Logic
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', () => {
+                    navLinks.classList.toggle('mobile-active');
+                });
+                
+                // Close menu when a link is clicked
+                const mobileLinks = navLinks.querySelectorAll('a');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        navLinks.classList.remove('mobile-active');
+                    });
+                });
+            }
 
         });
     </script>
